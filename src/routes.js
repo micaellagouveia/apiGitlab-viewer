@@ -6,24 +6,17 @@ routes.get('/', async (req, res) => {
 })
 
 routes.get('/webhooks', async (req, res) => {
-    const webhooks = async () => {
+    /*const webhooks = async () => {
         try {
             return await axios.get(process.env.GITLAB_API)
         } catch (error) {
             console.error(error)
         }
-    }
 
-    return res.json(webhooks)
+    }*/
+    console.log(req)
+
 })
-/*
-axios('/webhooks', {
-    url: process.env.GITLAB_API ,
-    method: 'GET',
-  }).then(req => req.body
-  ).catch(error => {
-    throw error
-  })
-*/
+
 
 module.exports = routes
