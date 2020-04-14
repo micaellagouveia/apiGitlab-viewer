@@ -1,11 +1,10 @@
 const routes = require('express').Router()
-const axios = require('axios')
 
 routes.get('/', async (req, res) => {
     return res.json({ Hello: 'World !' })
 })
 
-routes.get('/webhooks', async (req, res) => {
+routes.post('/webhooks', async (req, res) => {
     /*const webhooks = async () => {
         try {
             return await axios.get(process.env.GITLAB_API)
@@ -14,8 +13,11 @@ routes.get('/webhooks', async (req, res) => {
         }
 
     }*/
-    console.log(req)
 
+    console.log("************************")
+    console.log(req)
+    console.log("************************")
+    return res.json(req)
 })
 
 
