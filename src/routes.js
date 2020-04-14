@@ -15,9 +15,9 @@ routes.post('/webhooks', async (req, res) => {
     }*/
 
     console.log("************************")
-    console.log(req)
+    console.log(req.body)
     console.log("************************")
-    return res.json(req)
+    return res.json(req.body)
 })
 
 
