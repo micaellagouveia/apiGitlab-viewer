@@ -24,37 +24,37 @@ routes.post('/issue-webhook', async (req, res) => {
 
 }),
 
-routes.post('/close-issue', async (req, res) => {
-    const issue = new Issue(req.body)
-    console.log('1 post')
-    issueRequest.closeIssue(issue).then((closeIssue) => {
+    routes.post('/close-issue', async (req, res) => {
+        const issue = new Issue(req.body)
+        console.log('1 post')
+        issueRequest.closeIssue(issue).then((closeIssue) => {
+            console.log("************************")
+            console.log("State: " + closeIssue.state)
+            console.log("************************")
+            if (closeIssue.state === 'closed') return res.send(`Issue ${closeIssue.iid}: ${closeIssue.state}`)
+            return res.send(`ERROR: Issue ${closeIssue.iid}: ${closeIssue.state}`)
+        }).catch((err) => {
+            return res.send(err)
+        })
+    }),
+
+    routes.post('/merge-webhook', async (req, res) => {
+
+        const merge = new MergeRequest(req.body)
+
         console.log("************************")
-        console.log("State: " + closeIssue.state)
+        console.log("Name: " + merge.project_name)
+        console.log("Id: " + merge.id)
+        console.log("Merge status: " + merge.merge_status)
+        console.log("State: " + merge.state)
+        console.log("Source branch: " + merge.source_branch)
+        console.log("Target branch: " + merge.target_branch)
         console.log("************************")
-        if(closeIssue.state === 'closed') return res.send(`Issue ${closeIssue.iid}: ${closeIssue.state}`)
-        return res.send(`ERROR: Issue ${closeIssue.iid}: ${closeIssue.state}`)
-    }).catch((err) => {
-        return res.send(err)
-    })
-}),
 
-routes.post('/merge-webhook', async (req, res) => {
+        return res.json(merge)
 
-    const merge = new MergeRequest(req.body)
-
-    console.log("************************")
-    console.log("Name: " + merge.project_name)
-    console.log("Id: " + merge.id)
-    console.log("Merge status: " + merge.merge_status)
-    console.log("State: " + merge.state)
-    console.log("Source branch: " + merge.source_branch)
-    console.log("Target branch: " + merge.target_branch)
-    console.log("************************")
-
-    return res.json(merge)
-
-}),
+    }),
 
 
 
-module.exports = routes
+    module.exports = routes
