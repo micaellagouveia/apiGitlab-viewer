@@ -12,7 +12,7 @@ routes.post('/issue-webhook', async (req, res) => {
     const issue = new Issue(req.body)
 
     console.log("************************")
-    console.log("Title: " + issue.title)
+    console.log("Title: " + req.body.object_attributes.title)
     console.log("Id: " + issue.id)
     console.log("Num: " + issue.iid)
     console.log("State: " + issue.state)
