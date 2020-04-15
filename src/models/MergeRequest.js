@@ -1,6 +1,6 @@
 module.exports = class MergeRequest {
     constructor(body) {
-        this.id = body.object_attributes.id,
+        this.iid = body.object_attributes.iid,
             this.state = body.object_attributes.state,
             this.merge_status = body.object_attributes.merge_status,
             this.project_name = body.project.name,

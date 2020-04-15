@@ -44,7 +44,7 @@ routes.post('/issue-webhook', async (req, res) => {
 
         console.log("************************")
         console.log("Name: " + merge.project_name)
-        console.log("Id: " + merge.id)
+        console.log("Iid: " + merge.iid)
         console.log("Merge status: " + merge.merge_status)
         console.log("State: " + merge.state)
         console.log("Source branch: " + merge.source_branch)
