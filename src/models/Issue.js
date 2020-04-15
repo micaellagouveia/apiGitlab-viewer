@@ -7,7 +7,7 @@ module.exports = class Issue {
         this.project_id = body.project.id,
         this.project_name = body.project.name,
         this.action = body.object_attributes.action
-        this.created_at = body.object_attibutes.created_at,
-        this.updated_at = body.object_attibutes.updated_at
+      //  this.created_at = body.object_attibutes.created_at,
+      //  this.updated_at = body.object_attibutes.updated_at
     }
 }

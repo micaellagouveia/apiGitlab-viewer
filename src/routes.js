@@ -12,16 +12,16 @@ routes.post('/issue-webhook', async (req, res) => {
     const issue = new Issue(req.body)
 
     console.log("************************")
-    console.log("Title: " + req.body.object_attributes.title)
+   // console.log("Title: " + req.body.object_attributes.title)
     console.log("Id: " + issue.id)
     console.log("Num: " + issue.iid)
     console.log("State: " + issue.state)
     console.log("Action: " + issue.action)
     console.log("************************")
 
-    if (issueUtils.open()) {
+  //  if (issueUtils.open()) {
         // requisição para jira para criação de issue
-    }
+ //   }
 
     if (issue.state === 'closed') {
         // requisição para apagar branch
