@@ -10,5 +10,6 @@ module.exports = {
     getBranchId(title){
         const id = title.split('-')
         return id[0]
-    }
+    },
+
 }
