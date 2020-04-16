@@ -2,14 +2,14 @@ require('dotenv/config');
 const axios = require('axios')
 
 module.exports = {
-    closeIssue: (issue) => {
+    closeIssue: (issueId) => {
         const params = {
             private_token: process.env.PRIVATE_TOKEN,
             state_event: 'close'
         }
 
         return new Promise((resolve) => {
-            axios.put(`${procces.env.GITLAB_API}/issues/${issue.iid}`, params).then((response) => {
+            axios.put(`${process.env.GITLAB_API}/issues/${issueId}`, params).then((response) => {
                 resolve(response.data)
             }).catch((err) => {
                 resolve(err.response.data)
@@ -26,7 +26,7 @@ module.exports = {
         }
 
         return new Promise((resolve) => {
-            axios.put(`${procces.env.GITLAB_API}/issues/${issue.iid}`, params).then((res) => {
+            axios.put(`${process.env.GITLAB_API}/issues/${issue.iid}`, params).then((res) => {
                 const result = res.body
                 resolve(result)
             }).catch((err) => {
