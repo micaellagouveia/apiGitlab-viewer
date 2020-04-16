@@ -19,20 +19,20 @@ module.exports = {
 
     },
 
-    reopenIssue: (issue) => {
+    commentCloseIssue: (issueId, merge) => {
         const params = {
             private_token: process.env.PRIVATE_TOKEN,
-            state_event: 'reopen'
+            body: `Branch <${merge.source_branch}> has been merged, closing issue ${issueId}.`
         }
 
         return new Promise((resolve) => {
-            axios.put(`${process.env.GITLAB_API}/issues/${issue.iid}`, params).then((res) => {
-                const result = res.body
-                resolve(result)
+
+            axios.post(`${process.env.GITLAB_API}/issues/${issueId}/notes`, params).then((response) => {
+                resolve(response.data)
             }).catch((err) => {
-                resolve(err.res.body)
+                resolve(err.response.data)
             })
         })
 
-    }
+    },
 }
