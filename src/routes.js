@@ -1,11 +1,12 @@
 const routes = require('express').Router()
+const endpoints = require('./utils/endpoints')
 const Issue = require('./models/Issue')
 const MergeRequest = require('./models/MergeRequest')
 const issueUtils = require('./utils/IssueUtils')
 const issueRequest = require('./requests/IssueRequest')
 
-routes.get('/', async (req, res) => {
-    return res.json({ Hello: 'World !' })
+routes.get('/', (req, res) => {
+    return res.json(endpoints.getJson())
 })
 
 routes.post('/issue-webhook', (req, res) => {
