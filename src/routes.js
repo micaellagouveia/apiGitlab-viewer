@@ -2,8 +2,10 @@ const routes = require('express').Router()
 const endpoints = require('./utils/endpoints')
 const Issue = require('./models/Issue')
 const MergeRequest = require('./models/MergeRequest')
+const JiraIssue = require('./models/JiraIssue')
 const issueUtils = require('./utils/IssueUtils')
 const issueRequest = require('./requests/IssueRequest')
+const jiraRequest = require('./requests/JiraRequest')
 
 routes.get('/', (req, res) => {
     return res.json(endpoints.getJson())
@@ -41,6 +43,13 @@ routes.post('/merge-webhook', (req, res) => {
 
     return res.json(merge)
 
+})
+
+routes.post('/jira-webhook', async (req, res) => {
+    const jiraIssue = new JiraIssue(req.body)
+    const comment = await jiraRequest.commentIssue(jiraIssue.key)
+
+    return res.json(comment)
 })
 
 module.exports = routes

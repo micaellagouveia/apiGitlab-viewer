@@ -2,37 +2,27 @@ require('dotenv/config');
 const axios = require('axios')
 
 module.exports = {
-    closeIssue: (issueId) => {
+    closeIssue: async (issueId) => {
+        const projectId = process.env.PROJECT_ID
         const params = {
             private_token: process.env.PRIVATE_TOKEN,
             state_event: 'close'
         }
 
-        return new Promise((resolve) => {
-            axios.put(`${process.env.GITLAB_API}/issues/${issueId}`, params).then((response) => {
-                resolve(response.data)
-            }).catch((err) => {
-                resolve(err.response.data)
-            })
-        })
+        const response = await axios.put(`${process.env.GITLAB_API}/${projectId}/issues/${issueId}`, params)
 
-
+        return response.data
     },
 
-    commentCloseIssue: (issueId, merge) => {
+    commentCloseIssue: async (issueId, merge) => {
+        const projectId = process.env.PROJECT_ID
         const params = {
             private_token: process.env.PRIVATE_TOKEN,
             body: `Branch <${merge.source_branch}> has been merged, closing issue ${issueId}.`
         }
 
-        return new Promise((resolve) => {
+        const response = await axios.post(`${process.env.GITLAB_API}/${projectId}/issues/${issueId}/notes`, params)
 
-            axios.post(`${process.env.GITLAB_API}/issues/${issueId}/notes`, params).then((response) => {
-                resolve(response.data)
-            }).catch((err) => {
-                resolve(err.response.data)
-            })
-        })
-
+        return response.data
     },
 }
