@@ -47,15 +47,19 @@ routes.post('/merge-webhook', (req, res) => {
 
 routes.post('/jira-webhook', async (req, res) => {
     const jiraIssue = new JiraIssue(req.body)
-    //const comment = await jiraRequest.commentIssue(jiraIssue.key)
+    const comment = await jiraRequest.commentIssue(jiraIssue.key)
+    
     console.log("************************************")
     console.log("Id: " + jiraIssue.id)
     console.log("Key: " + jiraIssue.key)
     console.log("Summary: " + jiraIssue.summary)
     console.log("Event: " + jiraIssue.webhookEvent)
     console.log("************************************")
+    console.log("Comment: " + comment)
+    console.log("************************************")
 
-    return res.json(jiraIssue)
+
+    return res.json(comment)
 })
 
 module.exports = routes
