@@ -3,7 +3,7 @@ const axios = require('axios')
 
 module.exports = {
     commentIssue: async (issueKey) => {
-        const comment = `Issue ${issueKey} ready to close.`
+        const comment = `Issue ${issueKey} is ready to close.`
 
         response = await axios({
             method: 'POST', url: `${process.env.JIRA_API}/issue/${issueKey}/comment`,
