@@ -48,11 +48,12 @@ routes.post('/merge-webhook', (req, res) => {
 routes.post('/jira-webhook', async (req, res) => {
     console.log(req.body)
     console.log('-----------------------------------------------')
- /*   if (req.body.user.key === 'JIRAUSER11821') {
+    console.log('-----------------------------------------------')
+    if (req.body.webhookEvent === 'jira:issue_updated') {
         const jiraIssue = new JiraIssue(req.body)
 
-        if (jiraIssue.webhookEvent === 'jira:issue_updated') {
-            const comment = await jiraRequest.commentIssue(jiraIssue.key)
+        if (jiraIssue.userKey === 'JIRAUSER11821') {
+          //  const comment = await jiraRequest.commentIssue(jiraIssue.key)
 
             console.log("************************************")
             console.log("Id: " + jiraIssue.id)
@@ -60,19 +61,19 @@ routes.post('/jira-webhook', async (req, res) => {
             console.log("Summary: " + jiraIssue.summary)
             console.log("Event: " + jiraIssue.webhookEvent)
             console.log("************************************")
-            console.log("Comment: " + comment)
-            console.log("************************************")
-            return res.json(comment)
+           // console.log("Comment: " + comment)
+            //console.log("************************************")
+            return res.json(jiraIssue)
         }
         else {
-            return res.send('Not comment updated event.')
+            return res.send('Wrong user.')
         }
 
 
-    }*/
-   // else {
-        return res.send('Wrong user.')
-    //}
+    }
+   else {
+        return res.send('Not comment updated event.')
+    }
 
 
     
