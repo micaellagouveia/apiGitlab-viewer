@@ -46,7 +46,9 @@ routes.post('/merge-webhook', (req, res) => {
 })
 
 routes.post('/jira-webhook', async (req, res) => {
-    if (req.body.user.name === 'Micaella') {
+    console.log(req.body)
+    console.log('-----------------------------------------------')
+    if (req.body.user.key === 'JIRAUSER11821') {
         const jiraIssue = new JiraIssue(req.body)
 
         if (jiraIssue.webhookEvent === 'jira:issue_updated') {
