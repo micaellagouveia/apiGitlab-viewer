@@ -47,7 +47,7 @@ routes.post('/merge-webhook', (req, res) => {
 
 routes.post('/jira-webhook', async (req, res) => {
 
-    if (req.body.webhookEvent === 'jira:issue_updated') {
+    /*if (req.body.webhookEvent === 'jira:issue_updated') {
         const jiraIssue = new JiraIssue(req.body)
 
         if (jiraIssue.userKey === 'JIRAUSER11821') {
@@ -64,10 +64,10 @@ routes.post('/jira-webhook', async (req, res) => {
             return res.json(jiraIssue)
         } else {
             return res.send(`User key ${jiraIssue.userKey} not found.`)}
-    }
-   else {
+    }*/
+  // else {
         return res.send('Not comment updated event.')
-    }    
+   // }    
 })
 
 module.exports = routes
