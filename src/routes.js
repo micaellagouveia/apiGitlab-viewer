@@ -47,7 +47,7 @@ routes.post('/merge-webhook', (req, res) => {
 
 routes.post('/jira-webhook', async (req, res) => {
     console.log(req.body)
-    console.log('-----------------------------------------------')
+ /*   console.log('-----------------------------------------------')
     if (req.body.user.key === 'JIRAUSER11821') {
         const jiraIssue = new JiraIssue(req.body)
 
@@ -69,10 +69,10 @@ routes.post('/jira-webhook', async (req, res) => {
         }
 
 
-    }
-    else {
+    }*/
+   // else {
         return res.send('Wrong user.')
-    }
+    //}
 
 
     
