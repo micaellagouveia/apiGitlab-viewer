@@ -50,12 +50,17 @@ routes.post('/jira-webhook', async (req, res) => {
     console.log(req.body)
     console.log('******************')
     if (req.body.webhookEvent === 'jira:issue_created') {
+        console.log('1')
         const jiraIssue = new JiraIssue(req.body)
 
         if (jiraIssue.userKey === 'JIRAUSER11821') {
+            console.log('2')
+            console.log('key:' + jiraIssue.key)
 
             const createBranch = await issueRequest.createBranch(jiraIssue.key)
+            console.log('3')
             const comment = await jiraRequest.commentCreatedIssue(jiraIssue.key, createBranch.name)
+            console.log('4')
 
             return res.json(comment.body)
         } else {
