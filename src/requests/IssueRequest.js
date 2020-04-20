@@ -15,6 +15,7 @@ module.exports = {
     },
 
     commentCloseIssue: async (issueId, merge) => {
+        console.log("branch: " + merge.source_branch)
         const projectId = process.env.PROJECT_ID
         const params = {
             private_token: process.env.PRIVATE_TOKEN,
