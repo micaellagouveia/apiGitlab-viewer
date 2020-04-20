@@ -18,6 +18,13 @@ routes.post('/issue-webhook', (req, res) => {
 
 })
 
+routes.post('/merge-webhook', (req, res) => {
+    const merge = new MergeRequest(req.body)
+
+    return res.json(merge)
+
+})
+
 routes.post('/close-issue', async (req, res) => {
     const merge = new MergeRequest(req.body)
 
@@ -38,53 +45,41 @@ routes.post('/close-issue', async (req, res) => {
     }
 })
 
-routes.post('/merge-webhook', (req, res) => {
-    const merge = new MergeRequest(req.body)
-
-    return res.json(merge)
-
-})
 
 routes.post('/jira-webhook', async (req, res) => {
 
-    /*if (req.body.webhookEvent === 'jira:issue_updated') {
+    if (req.body.webhookEvent === 'jira:issue_created') {
         const jiraIssue = new JiraIssue(req.body)
 
         if (jiraIssue.userKey === 'JIRAUSER11821') {
-            const comment = await jiraRequest.commentIssue(jiraIssue.key)
 
-            console.log("************************************")
-            console.log("Id: " + jiraIssue.id)
-            console.log("Key: " + jiraIssue.key)
-            console.log("Summary: " + jiraIssue.summary)
-            console.log("Event: " + jiraIssue.webhookEvent)
-            console.log("************************************")
-            console.log("Comment: " + comment.body)
-            console.log("************************************")
-            return res.json(jiraIssue)
+            const createBranch = await issueRequest.createBranch(jiraIssue.key)
+            const comment = await jiraRequest.commentCreatedIssue(jiraIssue.key, createBranch.name)
+
+            return res.json(comment.body)
         } else {
-            return res.send(`User key ${jiraIssue.userKey} not found.`)}
-    }*/
-  // else {
-        return res.send('Not comment updated event.')
-   // }    
+            return res.send(`User key ${jiraIssue.userKey} not found.`)
+        }
+    }
+    else {
+        return res.send('Error: Not found issue created')
+    }
 }),
 
-routes.post('/close-jira-issue', async (req, res) => {
-    const merge = new MergeRequest(req.body)
+    routes.post('/close-jira-issue', async (req, res) => {
+        const merge = new MergeRequest(req.body)
 
-    if (merge.state === 'merged') {
-        const jiraIssueKey = issueUtils.getJiraIssueKey(merge)
-        console.log("id: " + jiraIssueKey)
+        if (merge.state === 'merged') {
+            const jiraIssueKey = issueUtils.getJiraIssueKey(merge)
 
-        const commentJiraIssue = await jiraRequest.commentIssue(jiraIssueKey)
+            const commentJiraIssue = await jiraRequest.commentIssue(jiraIssueKey)
 
             return res.send(commentJiraIssue.body)
 
-    }
-    else {
-        return res.json(merge)
-    }
-})
+        }
+        else {
+            return res.json(merge)
+        }
+    })
 
 module.exports = routes

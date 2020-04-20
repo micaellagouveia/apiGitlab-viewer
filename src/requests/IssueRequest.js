@@ -15,7 +15,6 @@ module.exports = {
     },
 
     commentCloseIssue: async (issueId, merge) => {
-        console.log("branch: " + merge.source_branch)
         const projectId = process.env.PROJECT_ID
         const params = {
             private_token: process.env.PRIVATE_TOKEN,
@@ -25,5 +24,20 @@ module.exports = {
         const response = await axios.post(`${process.env.GITLAB_API}/${projectId}/issues/${issueId}/notes`, params)
 
         return response.data
+    },
+
+    createBranch: async(jiraKey) =>{
+        const projectId = process.env.PROJECT_ID
+        const params = {
+            private_token: process.env.PRIVATE_TOKEN,
+            branch: `${jiraKey}-branch`,
+            ref: 'master'
+        }
+
+        const response = await axios.post(`${process.env.GITLAB_API}/${projectId}/repository/branches`, params)
+
+        return response.data
+
+
     },
 }
