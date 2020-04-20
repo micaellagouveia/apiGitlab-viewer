@@ -68,6 +68,22 @@ routes.post('/jira-webhook', async (req, res) => {
   // else {
         return res.send('Not comment updated event.')
    // }    
+}),
+
+routes.post('/close-jira-issue', async (req, res) => {
+    const merge = new MergeRequest(req.body)
+
+    if (merge.state === 'merged') {
+        const jiraIssueId = issueUtils.getJiraIssueId(merge)
+
+        const commentJiraIssue = await jiraRequest.commentIssue(jiraIssueId)
+
+            return res.send(commentJiraIssue.body)
+
+    }
+    else {
+        return res.json(merge)
+    }
 })
 
 module.exports = routes
