@@ -57,9 +57,9 @@ routes.post('/jira-webhook', async (req, res) => {
             console.log('2')
             console.log('key:' + jiraIssue.key)
 
-            const createBranch = await issueRequest.createBranch(jiraIssue.key)
+          //  const createBranch = await issueRequest.createBranch(jiraIssue.key)
             console.log('3')
-            const comment = await jiraRequest.commentCreatedIssue(jiraIssue.key, createBranch.name)
+            const comment = await jiraRequest.commentCreatedIssue(jiraIssue.key, "Comentario"/*createBranch.name*/)
             console.log('4')
 
             return res.json(comment.body)
