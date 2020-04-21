@@ -1,20 +1,9 @@
 module.exports = {
     getJson: () => {
-        const endpoints = [
+        const endpoints = [    
             {
                 type: 'POST',
-                endpoint: '/issue-webhook',
-                JSON: {
-                    object_attributes: {
-                        iid: 'Integer',
-                        state: 'String'
-                    }
-                },
-                description: 'Receives an issue event webhook.',
-            },
-            {
-                type: 'POST',
-                endpoint: '/close-issue',
+                endpoint: '/close-jira-issue',
                 JSON: {
                     object_attributes: {
                         iid: 'Integer',
@@ -26,7 +15,7 @@ module.exports = {
             },
             {
                 type: 'POST',
-                endpoint: '/merge-webhook',
+                endpoint: '/close-gitlab-issue',
                 JSON: {
                     object_attributes: {
                         iid: 'Integer',
@@ -34,7 +23,7 @@ module.exports = {
                         source_branch: 'String'
                     }
                 },
-                description: 'Receives a merge request event webhook.'
+                description: 'Receives an merge request event webhook and close gitlab issue related at.'
             },
             {
                 type: 'POST',

@@ -2,7 +2,8 @@ require('dotenv/config');
 const axios = require('axios')
 
 module.exports = {
-    commentIssue: async (issueKey) => {
+
+    jiraIssue: async (issueKey) => {
         const comment = `Issue ${issueKey} is ready to close.`
 
         response = await axios({
@@ -14,7 +15,19 @@ module.exports = {
         return response.data
     },
 
-    commentCreatedIssue: async (issueKey, branch) => {
+    gitlabIssue: async (issueId, merge) => {
+        const projectId = process.env.PROJECT_ID
+        const params = {
+            private_token: process.env.PRIVATE_TOKEN,
+            body: `Branch <${merge.source_branch}> has been merged, closing issue ${issueId}.`
+        }
+
+        const response = await axios.post(`${process.env.GITLAB_API}/${projectId}/issues/${issueId}/notes`, params)
+
+        return response.data
+    },
+
+    createdIssue: async (issueKey, branch) => {
         const comment = `Created <${branch}> related to this issue on gitlab.`
 
         response = await axios({
