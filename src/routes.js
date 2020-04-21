@@ -48,14 +48,14 @@ routes.post('/close-issue', async (req, res) => {
 
 routes.post('/jira-webhook', async (req, res) => {
 
-    console.log(req.body)
     console.log('********************')
+    console.log(JSON.parse(req.body))
 
-    const obj = req.body.issue.project
+    /*const obj = req.body.issue.project
 
     for (var key in obj) { 
         console.log(key, obj[key])
-      }
+      }*/
     console.log('*********************')
  
     /*if (req.body.webhookEvent === 'jira:issue_created') {
