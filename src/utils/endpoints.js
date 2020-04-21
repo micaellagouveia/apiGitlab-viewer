@@ -10,7 +10,7 @@ module.exports = {
                         state: 'String'
                     }
                 },
-                description: 'Receives an issue event webhook',
+                description: 'Receives an issue event webhook.',
             },
             {
                 type: 'POST',
@@ -22,7 +22,7 @@ module.exports = {
                         source_branch: 'String'
                     }
                 },
-                description: 'Receives an merge request event webhook and close issue related at the issue'
+                description: 'Receives an merge request event webhook and close jira issue related at.'
             },
             {
                 type: 'POST',
@@ -34,7 +34,23 @@ module.exports = {
                         source_branch: 'String'
                     }
                 },
-                description: 'Receives a merge request event webhook'
+                description: 'Receives a merge request event webhook.'
+            },
+            {
+                type: 'POST',
+                endpoint: '/jira-webhook',
+                JSON: {
+                    object_attributes: {
+                        webhookEvent: 'String',
+                        user: {
+                            key: 'String'
+                        },
+                        issue: {
+                            key: 'String'
+                        }
+                    }
+                },
+                description: 'Receives an jira:issue-created event webhook and created a branch related at on Gitlab.'
             }
         ]
         return endpoints

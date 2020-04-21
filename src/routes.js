@@ -47,20 +47,24 @@ routes.post('/close-issue', async (req, res) => {
 
 
 routes.post('/jira-webhook', async (req, res) => {
-    console.log(req.body)
-    console.log('******************')
-    if (req.body.webhookEvent === 'jira:issue_created') {
-        console.log('1')
+    
+    console.log('********************')
+
+    const obj = req.body.issue.project
+
+    for (var key in obj) { 
+        console.log(key, obj[key])
+      }
+    console.log('*********************')
+ 
+    /*if (req.body.webhookEvent === 'jira:issue_created') {
+ 
         const jiraIssue = new JiraIssue(req.body)
 
         if (jiraIssue.userKey === 'JIRAUSER11821') {
-            console.log('2')
-            console.log('key:' + jiraIssue.key)
 
             const createBranch = await issueRequest.createBranch(jiraIssue.key)
-            console.log('3')
             const comment = await jiraRequest.commentCreatedIssue(jiraIssue.key, createBranch.name)
-            console.log('4')
 
             return res.json(comment.body)
         } else {
@@ -69,7 +73,8 @@ routes.post('/jira-webhook', async (req, res) => {
     }
     else {
         return res.send('Error: Not found issue created')
-    }
+    }*/
+    return res.json(req.body.issue.project)
 }),
 
     routes.post('/close-jira-issue', async (req, res) => {
