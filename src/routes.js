@@ -49,7 +49,7 @@ routes.post('/close-issue', async (req, res) => {
 routes.post('/jira-webhook', async (req, res) => {
 
     console.log('********************')
-    console.log(JSON.parse(req.body))
+    console.log(req.body)
 
     /*const obj = req.body.issue.project
 
