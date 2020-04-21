@@ -27,16 +27,14 @@ module.exports = {
     },
 
     createBranch: async (jiraKey) => {
-        console.log("jiraKey: " + jiraKey)
+
         const projectId = process.env.PROJECT_ID
         const params = {
             private_token: process.env.PRIVATE_TOKEN,
             branch: `${jiraKey}-branch`,
             ref: 'master'
         }
-        console.log("params: " + {params})
-        console.log("url: " + `${process.env.GITLAB_API}/${projectId}/repository/branches`)
-
+        
         const response = await axios.post(`${process.env.GITLAB_API}/${projectId}/repository/branches`, params)
 
         return response.data
