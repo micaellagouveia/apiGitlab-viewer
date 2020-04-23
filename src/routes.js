@@ -27,6 +27,8 @@ routes.post('/close-gitlab-issue', async (req, res) => {
     }
     else {
         return res.json(merge)
+
+        //
     }
 })
 
