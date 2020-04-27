@@ -39,10 +39,8 @@ routes.post('/jira-webhook', async (req, res) => {
 
         if (req.body.webhookEvent === 'jira:issue_updated') {
 
-            console.log(req.body.issue.fields)
-
             const jiraIssue = new JiraIssue(req.body)
-            console.log("********************************")
+          /*  console.log("********************************")
             console.log("Reporter: " + jiraIssue.reporter)
             console.log("Priority: " + jiraIssue.priority)
             console.log("Labels: " + jiraIssue.labels)
@@ -52,18 +50,22 @@ routes.post('/jira-webhook', async (req, res) => {
             console.log("Votes: " + jiraIssue.votes)
             console.log("Project: " + jiraIssue.project)
             console.log("IssueType: " + jiraIssue.issuetype)
-            console.log("Description: \n" + jiraIssue.description)
+            console.log("Description: \n" + jiraIssue.description)*/
 
-            if(jiraIssue.files){
+        /*    if(jiraIssue.files){
                 console.log("Anexos: \n")
                 for (let key in jiraIssue.files) { 
-                    console.log(key, jiraIssue.files[key])
+                    console.log(key, jiraIssue.files[key].filename)
                   }
+            }            
+            console.log("********************************")*/
+            const verify = issueUtils.verifyIssueTemplate(jiraIssue.description)
+            if(verify){
+            const line = issueUtils.verifyIssueContent(jiraIssue.description)
+            return res.send(line)
             }
-            console.log("********************************")
 
-            return res.send("OK")
-
+            return res.send(verify)
         }
         else {
             return res.send('Error: Not found created issue.')
