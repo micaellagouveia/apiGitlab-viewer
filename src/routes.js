@@ -33,11 +33,11 @@ routes.post('/close-gitlab-issue', async (req, res) => {
 
 routes.post('/jira-webhook', async (req, res) => {
 
-    console.log(req.body)
+    const project = req.body.issue.fields.project.name
     
-    if (req.body.issue.fields.project.name === 'Projeto de Teste de Fluxo PJe') {
+    if (project && project === 'Projeto de Teste de Fluxo PJe') {
 
-        if (req.body.webhookEvent === 'jira:issue_updated') {
+        if (req.body.webhookEvent === 'jira:issue_created') {
 
             console.log(req.body.issue.fields)
 
