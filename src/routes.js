@@ -37,7 +37,7 @@ routes.post('/jira-webhook', async (req, res) => {
     
     if (project && project === 'Projeto de Teste de Fluxo PJe') {
 
-        if (req.body.webhookEvent === 'jira:issue_created') {
+        if (req.body.webhookEvent === 'jira:issue_updated') {
 
             console.log(req.body.issue.fields)
 
@@ -49,13 +49,17 @@ routes.post('/jira-webhook', async (req, res) => {
             console.log("Assignee: " + jiraIssue.assignee)
             console.log("Status: " + jiraIssue.status)
             console.log("Creator: " + jiraIssue.creator)
-            console.log("AggregateProgress: " + jiraIssue.aggregateprogress)
-            console.log("Progress: " + jiraIssue.progress)
             console.log("Votes: " + jiraIssue.votes)
-            console.log("Worklog: " + jiraIssue.worklog)
             console.log("Project: " + jiraIssue.project)
             console.log("IssueType: " + jiraIssue.issuetype)
-            console.log("Description: " + jiraIssue.description)
+            console.log("Description: \n" + jiraIssue.description)
+
+            if(jiraIssue.files){
+                console.log("Anexos: \n")
+                for (let key in jiraIssue.files) { 
+                    console.log(key, jiraIssue.files[key])
+                  }
+            }
             console.log("********************************")
 
             return res.send("OK")

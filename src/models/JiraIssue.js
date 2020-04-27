@@ -18,5 +18,6 @@ module.exports = class JiraIssue {
         this.project = body.issue.fields.project.name
         this.issuetype = body.issue.fields.issuetype.name
         this.description = body.issue.fields.description
+        this.files = body.issue.fields.attachment
     }
 }
