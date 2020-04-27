@@ -32,6 +32,8 @@ routes.post('/close-gitlab-issue', async (req, res) => {
 
 
 routes.post('/jira-webhook', async (req, res) => {
+
+    console.log(req.body)
     
     if (req.body.issue.fields.project.name === 'Projeto de Teste de Fluxo PJe') {
 
