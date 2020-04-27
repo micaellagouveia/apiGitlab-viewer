@@ -27,8 +27,6 @@ routes.post('/close-gitlab-issue', async (req, res) => {
     }
     else {
         return res.json(merge)
-
-        // Adicionei o cometario na rota 
     }
 })
 
@@ -37,14 +35,27 @@ routes.post('/jira-webhook', async (req, res) => {
     
     if (req.body.issue.fields.project.name === 'Projeto de Teste de Fluxo PJe') {
 
-        if (req.body.webhookEvent === 'jira:issue_created') {
+        if (req.body.webhookEvent === 'jira:issue_updated') {
 
             const jiraIssue = new JiraIssue(req.body)
+            console.log("********************************")
+            console.log("Reporter: " + jiraIssue.reporter)
+            console.log("Priority: " + jiraIssue.priority)
+            console.log("Labels: " + jiraIssue.labels)
+            console.log("Assignee: " + jiraIssue.assignee)
+            console.log("Status: " + jiraIssue.status)
+            console.log("Creator: " + jiraIssue.creator)
+            console.log("AggregateProgress: " + jiraIssue.aggregateprogress)
+            console.log("Progress: " + jiraIssue.progress)
+            console.log("Votes: " + jiraIssue.votes)
+            console.log("Worklog: " + jiraIssue.worklog)
+            console.log("Project: " + jiraIssue.project)
+            console.log("IssueType: " + jiraIssue.issuetype)
+            console.log("Description: " + jiraIssue.description)
+            console.log("********************************")
 
-            const branch = await issueRequest.createBranch(jiraIssue.key)
-            const comment = await commentRequest.createdIssue(jiraIssue.key, branch.name)
+            return res.send("OK")
 
-            return res.json(comment.body)
         }
         else {
             return res.send('Error: Not found created issue.')
