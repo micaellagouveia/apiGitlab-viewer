@@ -41,6 +41,7 @@ routes.post('/jira-webhook', async (req, res) => {
 
             const jiraIssue = new JiraIssue(req.body)
             console.log("********************************")
+            console.log("Key: " + jiraIssue.key)
             console.log("Reporter: " + jiraIssue.reporter)
             console.log("Priority: " + jiraIssue.priority)
             console.log("Labels: " + jiraIssue.labels)
@@ -61,9 +62,10 @@ routes.post('/jira-webhook', async (req, res) => {
             console.log("********************************")
             const verify = issueUtils.verifyIssueTemplate(jiraIssue.description)
             if (verify) {
-                const line = issueUtils.verifyIssueContent(jiraIssue.description)
-                console.log(line)
-                return res.send(line)
+                const msg = issueUtils.verifyIssueContent(jiraIssue.description)
+                const comment = commentRequest.jiraIssue(jiraIssue.key, msg)
+                console.log(msg)
+                return res.send(comment)
             }
 
             return res.send(verify)
@@ -80,8 +82,9 @@ routes.post('/close-jira-issue', async (req, res) => {
 
     if (merge.state === 'merged') {
         const jiraIssueKey = issueUtils.getJiraIssueKey(merge)
+        const msg = `Issue <${jiraIssueKey}> is ready to close.`
 
-        const comment = await commentRequest.jiraIssue(jiraIssueKey)
+        const comment = await commentRequest.jiraIssue(jiraIssueKey, msg)
 
         return res.send(comment.body)
 
