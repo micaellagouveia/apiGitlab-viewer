@@ -1,7 +1,7 @@
 module.exports = class JiraIssue {
     
     constructor(body) {
-       /* this.id = body.issue.id
+        this.id = body.issue.id
         this.key = body.issue.key
         this.userKey = body.user.key
         this.webhookEvent = body.webhookEvent
@@ -16,8 +16,8 @@ module.exports = class JiraIssue {
         this.votes = body.issue.fields.votes.votes
         this.worklog = body.issue.fields.worklog
         this.project = body.issue.fields.project.name
-        this.issuetype = body.issue.fields.issuetype.name*/
+        this.issuetype = body.issue.fields.issuetype.name
         this.description = body.issue.fields.description
-        //this.files = body.issue.fields.attachment
+        this.files = body.issue.fields.attachment
     }
 }

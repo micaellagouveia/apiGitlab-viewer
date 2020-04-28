@@ -34,13 +34,13 @@ routes.post('/close-gitlab-issue', async (req, res) => {
 routes.post('/jira-webhook', async (req, res) => {
 
     const project = req.body.issue.fields.project.name
-    
+
     if (project && project === 'Projeto de Teste de Fluxo PJe') {
 
         if (req.body.webhookEvent === 'jira:issue_updated') {
 
             const jiraIssue = new JiraIssue(req.body)
-          /*  console.log("********************************")
+            console.log("********************************")
             console.log("Reporter: " + jiraIssue.reporter)
             console.log("Priority: " + jiraIssue.priority)
             console.log("Labels: " + jiraIssue.labels)
@@ -50,19 +50,19 @@ routes.post('/jira-webhook', async (req, res) => {
             console.log("Votes: " + jiraIssue.votes)
             console.log("Project: " + jiraIssue.project)
             console.log("IssueType: " + jiraIssue.issuetype)
-            console.log("Description: \n" + jiraIssue.description)*/
+            console.log("Description: \n" + jiraIssue.description)
 
-        /*    if(jiraIssue.files){
+            if (jiraIssue.files) {
                 console.log("Anexos: \n")
-                for (let key in jiraIssue.files) { 
+                for (let key in jiraIssue.files) {
                     console.log(key, jiraIssue.files[key].filename)
-                  }
-            }            
-            console.log("********************************")*/
+                }
+            }
+            console.log("********************************")
             const verify = issueUtils.verifyIssueTemplate(jiraIssue.description)
-            if(verify){
-            const line = issueUtils.verifyIssueContent(jiraIssue.description)
-            return res.send(line)
+            if (verify) {
+                const line = issueUtils.verifyIssueContent(jiraIssue.description)
+                return res.send(line)
             }
 
             return res.send(verify)
