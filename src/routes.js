@@ -33,49 +33,43 @@ routes.post('/close-gitlab-issue', async (req, res) => {
 
 routes.post('/jira-webhook', async (req, res) => {
 
-    const project = req.body.issue.fields.project.name
+    // const project = req.body.issue.fields.project.name
 
-    if (project && project === 'Projeto de Teste de Fluxo PJe') {
+    //  if (project && project === 'Projeto de Teste de Fluxo PJe') {
 
-        if (req.body.webhookEvent === 'jira:issue_updated') {
+    if (req.body.webhookEvent === 'jira:issue_updated') {
 
-            const jiraIssue = new JiraIssue(req.body)
-            console.log("********************************")
-            console.log("Key: " + jiraIssue.key)
-            console.log("Reporter: " + jiraIssue.reporter)
-            console.log("Priority: " + jiraIssue.priority)
-            console.log("Labels: " + jiraIssue.labels)
-            console.log("Assignee: " + jiraIssue.assignee)
-            console.log("Status: " + jiraIssue.status)
-            console.log("Creator: " + jiraIssue.creator)
-            console.log("Votes: " + jiraIssue.votes)
-            console.log("Project: " + jiraIssue.project)
-            console.log("IssueType: " + jiraIssue.issuetype)
-            console.log("Description: \n" + jiraIssue.description)
+        const jiraIssue = new JiraIssue(req.body)
+        /*  console.log("********************************")
+          console.log("Key: " + jiraIssue.key)
+          console.log("Reporter: " + jiraIssue.reporter)
+          console.log("Priority: " + jiraIssue.priority)
+          console.log("Labels: " + jiraIssue.labels)
+          console.log("Assignee: " + jiraIssue.assignee)
+          console.log("Status: " + jiraIssue.status)
+          console.log("Creator: " + jiraIssue.creator)
+          console.log("Votes: " + jiraIssue.votes)
+          console.log("Project: " + jiraIssue.project)
+          console.log("IssueType: " + jiraIssue.issuetype)
+          console.log("Description: \n" + jiraIssue.description)
 
-            if (jiraIssue.files) {
-                console.log("Anexos: \n")
-                for (let key in jiraIssue.files) {
-                    console.log(key, jiraIssue.files[key].filename)
-                }
-            }
-            console.log("********************************")
-            const verify = issueUtils.verifyIssueTemplate(jiraIssue.description)
-            if (verify) {
-                const msg = issueUtils.verifyIssueContent(jiraIssue.description)
-                console.log("Key: " + jiraIssue.key)
-                const comment = commentRequest.jiraIssue(jiraIssue.key, msg.join('\n'))
-                console.log("Comment: " + comment)
-                return res.send(comment.body)
-            }
-
-            return res.send(verify)
-        }
-        else {
-            return res.send('Error: Not found created issue.')
-        }
+          if (jiraIssue.files) {
+              console.log("Anexos: \n")
+              for (let key in jiraIssue.files) {
+                  console.log(key, jiraIssue.files[key].filename)
+              }
+          }
+          console.log("********************************")*/
+        const verify = await issueUtils.verifyIssue(jiraIssue.description)
+        const comment = await commentRequest.jiraIssue(jiraIssue.key, verify)
+        console.log("Comment: " + comment)
+        return res.send(comment.body)
     }
-    return res.send('Error: Not found project name.')
+    else {
+        return res.send('Error: Not found created issue.')
+    }
+    //}
+    //return res.send('Error: Not found project name.')
 })
 
 routes.post('/close-jira-issue', async (req, res) => {
