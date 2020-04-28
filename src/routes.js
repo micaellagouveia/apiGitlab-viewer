@@ -32,7 +32,6 @@ routes.post('/close-gitlab-issue', async (req, res) => {
 
 
 routes.post('/jira-webhook', async (req, res) => {
-    console.log(req.body)
 
     const project = req.body.issue.fields.project.name
 
@@ -42,37 +41,20 @@ routes.post('/jira-webhook', async (req, res) => {
             req.body.issue_event_type_name === 'issue_updated') {
 
             const jiraIssue = new JiraIssue(req.body)
-            console.log("********************************")
-            console.log("Key: " + jiraIssue.key)
-            console.log("Reporter: " + jiraIssue.reporter)
-            console.log("Priority: " + jiraIssue.priority)
-            console.log("Labels: " + jiraIssue.labels)
-            console.log("Assignee: " + jiraIssue.assignee)
-            console.log("Status: " + jiraIssue.status)
-            console.log("Creator: " + jiraIssue.creator)
-            console.log("Votes: " + jiraIssue.votes)
-            console.log("Project: " + jiraIssue.project)
-            console.log("IssueType: " + jiraIssue.issuetype)
-            console.log("Description: \n" + jiraIssue.description)
 
-            if (jiraIssue.files) {
-                console.log("Anexos: \n")
-                for (let key in jiraIssue.files) {
-                    console.log(key, jiraIssue.files[key].filename)
-                }
-            }
-            console.log("********************************")
             const verify = await issueUtils.verifyIssue(jiraIssue.description)
+
+            // se a verificação solicitar mudanças, faz-se o comentário na issue
             if (verify) {
                 const comment = await commentRequest.jiraIssue(jiraIssue.key, verify)
                 return res.send(comment.body)
             }
 
-            return res.send('')
+            return res.send('Nothing to comment.')
 
         }
         else {
-            return res.send('Error: Not found created issue.')
+            return res.send('Error: Not found created or updated issue event.')
         }
     }
     return res.send('Error: Not found project name.')
