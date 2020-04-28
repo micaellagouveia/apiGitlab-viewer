@@ -36,9 +36,10 @@ routes.post('/jira-webhook', async (req, res) => {
 
     const project = req.body.issue.fields.project.name
 
-    if (project && project === 'Projeto de Teste de Fluxo PJe') {
+    if (project === 'Projeto de Teste de Fluxo PJe') {
 
-        if (req.body.webhookEvent === 'jira:issue_updated') {
+        if (req.body.webhookEvent === 'jira:issue_created' ||
+            req.body.issue_event_type_name === 'issue_updated') {
 
             const jiraIssue = new JiraIssue(req.body)
             console.log("********************************")
