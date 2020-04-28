@@ -29,7 +29,8 @@ module.exports = {
 
     verifyIssueContent: (description) => {
         const h3 = description.split('h3. ')
-        let msg = 'Todos os campos estão preenchidos.'
+        let index = 0
+        let msg = ['Todos os campos estão preenchidos.']
         console.log('---------------------------')
         console.log("H3: " + h3)
         console.log('---------------------------')
@@ -37,11 +38,9 @@ module.exports = {
         for (let i = 1; i < h3.length; i++) {
 
             let lines = h3[i].split('\r\n')
-            console.log("line: " + lines)
-
             if (!lines[1] || lines[1] === '') {
-                msg = `Campo < ${lines[0]} > não preenchido.`
-                return msg
+                msg[index] = `Campo < ${lines[0]} > não preenchido.`
+                index++
             }
         }
         return msg

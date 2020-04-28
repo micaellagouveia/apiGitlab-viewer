@@ -11,6 +11,8 @@ module.exports = {
             data: { body: msg }
         })
 
+        console.log(response.data)
+
         return response.data
     },
 
