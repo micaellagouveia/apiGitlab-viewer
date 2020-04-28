@@ -16,20 +16,32 @@ module.exports = {
         console.log('---------------------------')
         console.log("Description: " + description)
         console.log('---------------------------')
+        let miss = ''
 
         const v1 = description.includes("Funcionalidade relacionada")
         const v2 = description.includes("Necessidade a ser atendida / Problema a ser solucionado")
         const v3 = description.includes("Passos para reprodução")
         const v4 = description.includes("Comportamento esperado, cenários possíveis")
 
-        if (v1 && v2 && v3 && v4) {
-            const content = await verifyIssueContent(description)
-            return content
+        if (!v1 && !v2 && !v3 && !v4) {
+            return "Descrição não preenchida."
         }
-        const miss = await findMissParameter(v1, v2, v3, v4)
-        const mensagem = `Parâmetros faltantes na descrição:\n ${miss}`
+        else {
 
-        return mensagem
+            if (!v1 || !v2 || !v3 || !v4) miss = await findMissParameter(v1, v2, v3, v4)
+
+            const content = await verifyIssueContent(description)
+
+            if (miss != '' || content != '') {
+                const mensagem = `* Parâmetros faltantes na descrição:\n ${miss}\n\n${content}`
+
+                return mensagem
+            }
+            else{
+                return false
+            }
+
+        }
     },
 }
 
@@ -51,7 +63,7 @@ function findMissParameter(v1, v2, v3, v4) {
 function verifyIssueContent(description) {
     const h3 = description.split('h3. ')
     let index = 0
-    let msg = ['Todos os campos estão preenchidos.']
+    let msg = ['']
     console.log('---------------------------')
     console.log("H3: " + h3)
     console.log('---------------------------')
@@ -60,7 +72,7 @@ function verifyIssueContent(description) {
 
         let lines = h3[i].split('\r\n')
         if (!lines[1] || lines[1] === '') {
-            msg[index] = `Campo { ${lines[0]} } não preenchido.`
+            msg[index] = `* Campo { ${lines[0]} } não preenchido.`
             index++
         }
     }
