@@ -62,6 +62,7 @@ routes.post('/jira-webhook', async (req, res) => {
             const verify = issueUtils.verifyIssueTemplate(jiraIssue.description)
             if (verify) {
                 const line = issueUtils.verifyIssueContent(jiraIssue.description)
+                console.log(line)
                 return res.send(line)
             }
 
