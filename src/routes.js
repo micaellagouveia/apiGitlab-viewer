@@ -64,9 +64,11 @@ routes.post('/jira-webhook', async (req, res) => {
 })
 
 routes.post('/close-jira-issue', async (req, res) => {
+
+    console.log(req.body)
     const merge = new MergeRequest(req.body)
 
-    if (merge.state === 'merged') {
+   /* if (merge.state === 'merged') {
         const jiraIssueKey = issueUtils.getJiraIssueKey(merge)
         const msg = `Issue <${jiraIssueKey}> is ready to close.`
 
@@ -77,7 +79,8 @@ routes.post('/close-jira-issue', async (req, res) => {
     }
     else {
         return res.json(merge)
-    }
+    }*/
+    return res.json(merge)
 })
 
 module.exports = routes
