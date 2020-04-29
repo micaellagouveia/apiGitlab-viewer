@@ -32,6 +32,9 @@ routes.post('/close-gitlab-issue', async (req, res) => {
 
 
 routes.post('/jira-webhook', async (req, res) => {
+    console.log('************************')
+    console.log(req.body.issue.fields)
+    console.log('************************')
 
     const project = req.body.issue.fields.project.name
 
