@@ -63,12 +63,26 @@ routes.post('/jira-webhook', async (req, res) => {
     return res.send('Error: Not found project name.')
 })
 
-routes.post('/close-jira-issue', async (req, res) => {
+routes.post('/merge-webhook', async (req, res) => {
 
-    console.log(req.body)
     const merge = new MergeRequest(req.body)
 
+    if(merge.state === 'opened'){
+        // mudar jira issue para resolvida
+        const jiraIssueKey = issueUtils.getJiraIssueKey(merge)
+        const msg = "* MR aberto, esperando aprovação\n * Issue Resolvida."
+        const id = '5'
+        const resolved = await issueRequest.statusIssue(jiraIssueKey, msg, id)
+        console.log(resolved)
+        return res.json(resolved)
+    }
+    if(merge.state === 'closed'){
+        //mudar jira issue para reaberta
+    }
+
+
    /* if (merge.state === 'merged') {
+       //mudar jira issue para homologação técnica
         const jiraIssueKey = issueUtils.getJiraIssueKey(merge)
         const msg = `Issue <${jiraIssueKey}> is ready to close.`
 
