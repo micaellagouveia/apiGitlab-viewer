@@ -65,11 +65,14 @@ routes.post('/jira-webhook', async (req, res) => {
 
 routes.post('/merge-webhook', async (req, res) => {
 
+    console.log(req.body)
+
     const merge = new MergeRequest(req.body)
 
     if(merge.state === 'opened'){
         // mudar jira issue para resolvida
         const jiraIssueKey = issueUtils.getJiraIssueKey(merge)
+        console.log(jiraIssueKey)
         const msg = "* MR aberto, esperando aprovação\n * Issue Resolvida."
         const id = '5'
         const resolved = await issueRequest.statusIssue(jiraIssueKey, msg, id)
