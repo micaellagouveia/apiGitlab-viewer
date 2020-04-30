@@ -10,6 +10,7 @@ routes.get('/', (req, res) => {
     return res.json(endpoints.getJson())
 })
 
+
 routes.post('/close-gitlab-issue', async (req, res) => {
     const merge = new MergeRequest(req.body)
 
@@ -32,18 +33,25 @@ routes.post('/close-gitlab-issue', async (req, res) => {
 
 
 routes.post('/jira-webhook', async (req, res) => {
-    console.log('************************')
-    console.log(req.body.issue.fields)
-    console.log('************************')
 
     const project = req.body.issue.fields.project.name
+    let branchComment = ''
 
     if (project === 'Projeto de Teste de Fluxo PJe') {
 
-        if (req.body.webhookEvent === 'jira:issue_created' ||
-            req.body.issue_event_type_name === 'issue_updated') {
+        const jiraIssue = new JiraIssue(req.body)
 
-            const jiraIssue = new JiraIssue(req.body)
+        // Issue criada, branch será criada
+        if (req.body.webhookEvent === 'jira:issue_created') {
+
+            const branch = await issueRequest.createBranch(jiraIssue.key, jiraIssue.summary.replace(' ', '-'))
+            const msg = `Created branch "${branch.name}" related to this issue on gitlab.`
+
+            branchComment = await commentRequest.jiraIssue(jiraIssue.key, msg)
+        }
+
+        // Verificação da descrição para issues criadas e issues atualizadas
+        if (branchComment || req.body.issue_event_type_name === 'issue_updated') {
 
             const verify = await issueUtils.verifyIssue(jiraIssue.description)
 
@@ -54,50 +62,44 @@ routes.post('/jira-webhook', async (req, res) => {
             }
 
             return res.send('Nothing to comment.')
-
         }
         else {
+
             return res.send('Error: Not found created or updated issue event.')
         }
     }
+
     return res.send('Error: Not found project name.')
 })
 
-routes.post('/merge-webhook', async (req, res) => {
 
-    console.log(req.body)
+routes.post('/merge-webhook', async (req, res) => {
 
     const merge = new MergeRequest(req.body)
 
-    if(merge.state === 'opened'){
-        // mudar jira issue para resolvida
-        const jiraIssueKey = issueUtils.getJiraIssueKey(merge)
-        console.log(jiraIssueKey)
-        const msg = "* MR aberto, esperando aprovação\n * Issue Resolvida."
-        const id = '5'
-        const resolved = await issueRequest.statusIssue(jiraIssueKey, msg, id)
-        console.log(resolved)
-        return res.json(resolved)
+    let msg = ''
+    let id = ''
+    const jiraIssueKey = issueUtils.getJiraIssueKey(merge)
+
+    switch (merge.state) {
+        case 'opened':
+            msg = "* MR aberto, esperando aprovação.\n * Issue Resolvida."
+            id = '5'
+            break
+        case 'closed':
+            msg = '* MR reprovado.\n * Issue Reaberta.'
+            id = '3'
+            break
+        case 'merged':
+            msg = '* MR aprovado.\n * Issue Fechada.'
+            id = '701'
+            break
+        default:
+            return res.json(merge.state)
     }
-    if(merge.state === 'closed'){
-        //mudar jira issue para reaberta
-    }
+    const resolved = await issueRequest.statusIssue(jiraIssueKey, msg, id)
 
-
-   /* if (merge.state === 'merged') {
-       //mudar jira issue para homologação técnica
-        const jiraIssueKey = issueUtils.getJiraIssueKey(merge)
-        const msg = `Issue <${jiraIssueKey}> is ready to close.`
-
-        const comment = await commentRequest.jiraIssue(jiraIssueKey, msg)
-
-        return res.send(comment.body)
-
-    }
-    else {
-        return res.json(merge)
-    }*/
-    return res.json(merge)
+    return res.json(resolved)
 })
 
 module.exports = routes

@@ -15,12 +15,13 @@ module.exports = {
         return response.data
     },
 
-    createBranch: async (jiraKey) => {
+    createBranch: async (jiraKey, summary) => {
 
         const projectId = process.env.PROJECT_ID
+        
         const params = {
             private_token: process.env.PRIVATE_TOKEN,
-            branch: `${jiraKey}-branch`,
+            branch: `${jiraKey}-${summary}`,
             ref: 'master'
         }
 
@@ -30,11 +31,10 @@ module.exports = {
     },
 
     statusIssue: async (issueKey, msg, id) => {
-        json = {
-            update: {comment: [{ add: {
-            body: msg} }]},
+        const json = {
+            update: {comment: [{ add: {body: msg} }]},
             transition: {id: id }
-           }
+        }
 
         response = await axios({
             method: 'POST', url: `${process.env.JIRA_API}/issue/${issueKey}/transitions?expand=transitions.fields`,

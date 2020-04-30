@@ -11,8 +11,6 @@ module.exports = {
             data: { body: msg }
         })
 
-        console.log(response.data)
-
         return response.data
     },
 
@@ -24,18 +22,6 @@ module.exports = {
         }
 
         const response = await axios.post(`${process.env.GITLAB_API}/${projectId}/issues/${issueId}/notes`, params)
-
-        return response.data
-    },
-
-    createdIssue: async (issueKey, branch) => {
-        const comment = `Created <${branch}> related to this issue on gitlab.`
-
-        response = await axios({
-            method: 'POST', url: `${process.env.JIRA_API}/issue/${issueKey}/comment`,
-            headers: { Authorization: `Basic ${process.env.AUTHORIZATION_KEY}` },
-            data: { body: comment }
-        })
 
         return response.data
     }
