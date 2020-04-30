@@ -67,6 +67,8 @@ function verifyIssueContent(description) {
         let lines = h3[i].split('\r\n')
         console.log('++++++++++++++++++')
         console.log(lines)
+        console.log('///////////////////')
+        console.log("line(1): "+ lines[0])
 
         for (let j = 1; j < lines.length; j++) {
             if (lines[i] != '') {
