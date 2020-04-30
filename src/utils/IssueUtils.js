@@ -68,7 +68,7 @@ function verifyIssueContent(description) {
         console.log(lines)
 
 
-        if (!lines[1] || lines[1] === '') {
+        if (lines.length < 2) {
             msg[index] = `* Campo { ${lines[0]} } não preenchido.`
             index++
         }
