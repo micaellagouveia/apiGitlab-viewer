@@ -55,13 +55,13 @@ function findMissParameter(v1, v2, v3, v4) {
 
 //Verifica se todos os parâmetros existentes estão preenchidos
 function verifyIssueContent(description) {
-    const h3 = description.split('h3. ')
+    const h3 = description.split('h3. h3. ')
     let index = 0
     let msg = ['']
 
     console.log('---------------------')
     console.log(h3)
-    for (let i = 1; i < h3.length; i++) {
+    for (let i = 1; i < 5; i++) {
 
         let lines = h3[i].split('\r\n')
         console.log('++++++++++++++++++')
