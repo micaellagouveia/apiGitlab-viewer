@@ -15,10 +15,10 @@ module.exports = {
     //Verifica se a descrição da issue está ok
     verifyIssue: async (description) => {
         let miss = ''
-        const v1 = description.includes("h3. Funcionalidade relacionada")
-        const v2 = description.includes("h3. Necessidade a ser atendida / Problema a ser solucionado")
-        const v3 = description.includes("h3. Passos para reprodução")
-        const v4 = description.includes("h3. Comportamento esperado, cenários possíveis")
+        const v1 = description.includes("Funcionalidade relacionada")
+        const v2 = description.includes("Necessidade a ser atendida / Problema a ser solucionado")
+        const v3 = description.includes("Passos para reprodução")
+        const v4 = description.includes("Comportamento esperado, cenários possíveis")
 
         if (!v1 && !v2 && !v3 && !v4) return "Descrição não preenchida."
         else {
@@ -61,7 +61,7 @@ function verifyIssueContent(description) {
 
     console.log('---------------------')
     console.log(h3)
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i < h3.length; i++) {
         let content = false
 
         let lines = h3[i].split('\r\n')
