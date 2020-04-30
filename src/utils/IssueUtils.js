@@ -59,9 +59,15 @@ function verifyIssueContent(description) {
     let index = 0
     let msg = ['']
 
+    console.log('---------------------')
+    console.log(h3)
     for (let i = 1; i < h3.length; i++) {
 
         let lines = h3[i].split('\r\n')
+        console.log('++++++++++++++++++')
+        console.log(lines)
+
+
         if (!lines[1] || lines[1] === '') {
             msg[index] = `* Campo { ${lines[0]} } não preenchido.`
             index++
