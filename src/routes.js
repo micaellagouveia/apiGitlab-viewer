@@ -54,7 +54,8 @@ routes.post('/jira-webhook', async (req, res) => {
         if (branchComment || req.body.issue_event_type_name === 'issue_updated') {
 
             console.log('***********************')
-            console.log(jiraIssue.description)
+            console.log(req.body.issue.fields)
+            console.log('***********************')
 
             const verify = await issueUtils.verifyIssue(jiraIssue.description)
 

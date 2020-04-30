@@ -55,7 +55,7 @@ function findMissParameter(v1, v2, v3, v4) {
 
 //Verifica se todos os parâmetros existentes estão preenchidos
 function verifyIssueContent(description) {
-    const h3 = description.split('h3. h3. ')
+    const h3 = description.split('h3. ')
     let index = 0
     let msg = ['']
 
