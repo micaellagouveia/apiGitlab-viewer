@@ -59,26 +59,27 @@ function verifyIssueContent(description) {
     let index = 0
     let msg = ['']
 
-    console.log('---------------------')
+    console.log('Array da descrição: ')
     console.log(h3)
     for (let i = 1; i < h3.length; i++) {
         let content = false
 
         let lines = h3[i].split('\r\n')
-        console.log('++++++++++++++++++')
+        console.log('Array dividido: ')
         console.log(lines)
-        console.log('///////////////////')
-        console.log("line(1): "+ lines[0])
+        console.log("line(0): "+ lines[0])
 
         for (let j = 1; j < lines.length; j++) {
-            if (lines[i] != '') {
+            if (lines[j] != '') {
+                console.log('line[j] é diferente de ""')
+                console.log(`line[${j}]: ` + lines[j])
                 content = true
                 break
             }
         }
 
         if (!content) {
-            console.log("if: " + lines[0])
+            console.log("não preenchido: " + lines[0])
             msg[index] = `* Campo { ${lines[0]} } não preenchido.`
             index++
         }
