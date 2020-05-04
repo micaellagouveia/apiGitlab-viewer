@@ -5,8 +5,7 @@ const JiraIssue = require('./models/JiraIssue')
 const issueUtils = require('./utils/issue')
 const issueRequest = require('./requests/issue')
 const commentRequest = require('./requests/comment')
-const user = require('./requests/user')
-const userUtil = require( './utils/user')
+const userRequest = require('./requests/user')
 
 routes.get('/', (req, res) => {
     return res.json(endpoints.getJson())
@@ -38,13 +37,16 @@ routes.post('/jira-webhook', async (req, res) => {
 
     const project = req.body.issue.fields.project.name
     let branchComment = ''
+    let description = ''
 
     if (project === 'Projeto de Teste de Fluxo PJe') {
+        console.log('2')
 
         const jiraIssue = new JiraIssue(req.body)
 
         // Issue criada, branch será criada
         if (req.body.webhookEvent === 'jira:issue_created') {
+            console.log('3')
 
             const branch = await issueRequest.createBranch(jiraIssue.key, jiraIssue.summary.replace(' ', '-'))
             const msg = `Created branch "${branch.name}" related to this issue on gitlab.`
@@ -52,15 +54,13 @@ routes.post('/jira-webhook', async (req, res) => {
             branchComment = await commentRequest.jiraIssue(jiraIssue.key, msg)
 
             //Encontrar Tribunal
-           const groups = await user.getGroups(jiraIssue.reporter)
+            const tribunal = await userRequest.getTribunal(jiraIssue.reporter)
+            description = await issueRequest.addTribunal(tribunal, jiraIssue.key, jiraIssue.description)
+
         }
 
         // Verificação da descrição para issues criadas e issues atualizadas
         if (branchComment || req.body.issue_event_type_name === 'issue_updated') {
-
-            console.log('***********************')
-            console.log(req.body.issue.fields)
-            console.log('***********************')
 
             const verify = await issueUtils.verifyIssue(jiraIssue.description)
 
@@ -111,11 +111,11 @@ routes.post('/merge-webhook', async (req, res) => {
     return res.json(resolved)
 }),
 
-routes.post('/user', async(req, res) => {
-    const username = req.body.name
-    const groups = await user.getGroups(username)
-    const tribune = await userUtil.getTribune(groups)
-    return res.json(tribune)
-})
+    routes.post('/user', async (req, res) => {
+        const username = req.body.name
+        const groups = await userRequest.getUserGroups(username)
+        const tribunal = await userUtil.getTribunal(groups)
+        return res.json(tribunal)
+    })
 
 module.exports = routes
