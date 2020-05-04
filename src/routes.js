@@ -2,9 +2,11 @@ const routes = require('express').Router()
 const endpoints = require('./utils/endpoints')
 const MergeRequest = require('./models/MergeRequest')
 const JiraIssue = require('./models/JiraIssue')
-const issueUtils = require('./utils/IssueUtils')
-const issueRequest = require('./requests/IssueRequest')
-const commentRequest = require('./requests/CommentRequest')
+const issueUtils = require('./utils/issue')
+const issueRequest = require('./requests/issue')
+const commentRequest = require('./requests/comment')
+const user = require('./requests/user')
+const userUtil = require( './utils/user')
 
 routes.get('/', (req, res) => {
     return res.json(endpoints.getJson())
@@ -48,6 +50,9 @@ routes.post('/jira-webhook', async (req, res) => {
             const msg = `Created branch "${branch.name}" related to this issue on gitlab.`
 
             branchComment = await commentRequest.jiraIssue(jiraIssue.key, msg)
+
+            //Encontrar Tribunal
+           const groups = await user.getGroups(jiraIssue.reporter)
         }
 
         // Verificação da descrição para issues criadas e issues atualizadas
@@ -104,6 +109,13 @@ routes.post('/merge-webhook', async (req, res) => {
     const resolved = await issueRequest.statusIssue(jiraIssueKey, msg, id)
 
     return res.json(resolved)
+}),
+
+routes.post('/user', async(req, res) => {
+    const username = req.body.name
+    const groups = await user.getGroups(username)
+    const tribune = await userUtil.getTribune(groups)
+    return res.json(tribune)
 })
 
 module.exports = routes

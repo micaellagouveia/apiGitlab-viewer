@@ -86,3 +86,37 @@ function verifyIssueContent(description) {
     }
     return msg.join('\n')
 }
+
+
+/*
+Demandante
+TSE
+Contato: Renata Catão - 61 3030 9034
+
+Perfil de uso do sistema
+Secretário da sessão ("Assessor de plenário")
+
+Funcionalidade relacionada
+Relação de julgamento
+
+Necessidade a ser atendida / Problema a ser solucionado
+Ao criar uma sessão com possibilidade de criar blocos, selecionar a aba de criação de blocos, pequisar processos e selecionar para adicioná-los ao bloco, o sistema não abre a tela para que sejam fornecidas as informações do bloco.
+
+
+
+*/
+
+/*
+h3. Funcionalidade relacionada
+
+Automatização da interação entre Jira e Gitlab.
+h3. Necessidade a ser atendida / Problema a ser solucionado 
+
+Mudança de status do Jira conforme o MR, verificação da descrição. 
+h3. Passos para reprodução 
+ # Criar issue no Jira, e a branch já será criada.
+ # Abrir o MR da branch relacionada a issue.
+ # Dependendo do resultado, o status da issue será alterado 
+
+h3. Comportamento esperado, cenários possíveis
+Teste*/

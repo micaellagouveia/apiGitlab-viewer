@@ -5,7 +5,7 @@ module.exports = {
 
     jiraIssue: async (issueKey, msg) => {
 
-        response = await axios({
+        const response = await axios({
             method: 'POST', url: `${process.env.JIRA_API}/issue/${issueKey}/comment`,
             headers: { Authorization: `Basic ${process.env.AUTHORIZATION_KEY}` },
             data: { body: msg }
