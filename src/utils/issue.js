@@ -6,7 +6,7 @@ module.exports = {
         return jiraIssueKey
     },
 
-    verifyIssue: (description) => {
+    verifyIssue: (description, files) => {
         let miss = ''
         const v1 = description.includes("Funcionalidade relacionada")
         const v2 = description.includes("Necessidade a ser atendida / Problema a ser solucionado")
@@ -24,9 +24,11 @@ module.exports = {
         // Verificação do conteúdo dos parâmetros existentes
         const content = verifyIssueContent(description)
 
+        const annex = verifyFiles(files)
+
         // Se algo faltar, retorna a msg
-        if (miss != '' || content != '')
-            return `* Parâmetros faltantes na descrição:\n ${miss}\n\n${content}`
+        if (annex || miss != '' || content != '')
+            return `${annex}${miss}\n${content}`
 
         // Se tudo estiver ok
         return false
@@ -47,7 +49,7 @@ function findMissParam(v1, v2, v3, v4) {
     for (let i = 0; i < verify.length; i++) {
         if (!verify[i]) miss.push(params[i])
     }
-    return miss.join('\n')
+    return `* Parâmetros faltantes na descrição:\n ${miss.join('\n')}\n`
 }
 
 //Verifica se todos os parâmetros existentes estão preenchidos
@@ -73,4 +75,10 @@ function verifyIssueContent(description) {
         }
     }
     return msg.join('\n')
+}
+
+function verifyFiles(files) {
+    console.log(files)
+    if (files) return false
+    return '* Não há arquivos anexados.\n\n'
 }

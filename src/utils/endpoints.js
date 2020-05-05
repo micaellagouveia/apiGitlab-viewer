@@ -45,17 +45,3 @@ module.exports = {
         return endpoints
     }
 }
-/* Funcionalidade relacionada
-Automatização da interação Gitlab e Jira
-
-Necessidade a ser atendida / Problema a ser solucionado
-Verificação da descrição, tribunal requisitante, mudança de status de acordo com o MR.
-
-Passos para reprodução
-1. Criar issue no Jira.
-2. Criar MR no gitlab da branch relacionada.
-3. De acordo com o resultado do MR, o status será modificado.
-4. Preencher a descriçã corretamente, se não aparecerá nos comentários aquilo que está pendente.
-
-Comportamento esperado, cenários possíveis
-Teste*/

@@ -39,9 +39,10 @@ routes.post('/jira-webhook', async (req, res) => {
 
         }
         // Verificação da descrição para issues criadas e issues atualizadas
-        if (branchComment || jira.eventType === 'issue_updated') {
-            console.log('7')
+        if (jira.eventType === 'issue_updated') {
 
+            console.log(req.body.issue.fields)
+            console.log('******************************')
             const verify = await issueUtil.verifyIssue(jira.description)
             console.log('8')
 
