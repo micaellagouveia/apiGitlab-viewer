@@ -2,11 +2,10 @@ require('dotenv/config');
 const axios = require('axios')
 
 module.exports = {
-
-    jiraIssue: async (issueKey, msg) => {
+    jiraIssue: async (jiraKey, msg) => {
 
         const response = await axios({
-            method: 'POST', url: `${process.env.JIRA_API}/issue/${issueKey}/comment`,
+            method: 'POST', url: `${process.env.JIRA_API}/issue/${jiraKey}/comment`,
             headers: { Authorization: `Basic ${process.env.AUTHORIZATION_KEY}` },
             data: { body: msg }
         })
