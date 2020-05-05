@@ -19,8 +19,6 @@ module.exports = {
 
         const projectId = process.env.PROJECT_ID
         const name = summary.replace(' ', '-')
-
-        console.log('Name branch: ' + name)
         const params = {
             private_token: process.env.PRIVATE_TOKEN,
             branch: `${jiraKey}-${name}`,
@@ -29,8 +27,6 @@ module.exports = {
 
         const response = await axios.post(`${process.env.GITLAB_API}/${projectId}/repository/branches`, params)
 
-        console.log('response branch: ')
-        console.log(response.data.name)
         return response.data
     },
 

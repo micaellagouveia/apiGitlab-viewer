@@ -21,9 +21,8 @@ module.exports = {
         if (!v1 || !v2 || !v3 || !v4)
             miss = findMissParam(v1, v2, v3, v4)
 
-        // Verificação do conteúdo dos parâmetros existentes
+        // Verificação do conteúdo dos parâmetros existentes e existência de anexos
         const content = verifyIssueContent(description)
-
         const annex = verifyFiles(files)
 
         // Se algo faltar, retorna a msg
@@ -78,7 +77,6 @@ function verifyIssueContent(description) {
 }
 
 function verifyFiles(files) {
-    console.log(files.length)
     if (files.length > 0) return false
     return '* Não há arquivos anexados.\n\n'
 }
