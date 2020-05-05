@@ -43,7 +43,8 @@ routes.post('/jira-webhook', async (req, res) => {
 
             console.log(req.body.issue.fields)
             console.log('******************************')
-            const verify = await issueUtil.verifyIssue(jira.description)
+            console.log(jira.files)
+            const verify = await issueUtil.verifyIssue(jira.description, jira.files)
             console.log('8')
 
             
