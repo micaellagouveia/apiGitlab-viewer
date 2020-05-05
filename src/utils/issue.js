@@ -78,7 +78,7 @@ function verifyIssueContent(description) {
 }
 
 function verifyFiles(files) {
-    console.log(files)
-    if (files) return false
+    console.log(files.length)
+    if (files.length > 0) return false
     return '* Não há arquivos anexados.\n\n'
 }
