@@ -19,6 +19,8 @@ module.exports = {
 
         const projectId = process.env.PROJECT_ID
         const name = summary.replace(' ', '-')
+
+        console.log('Name branch: ' + name)
         const params = {
             private_token: process.env.PRIVATE_TOKEN,
             branch: `${jiraKey}-${name}`,
@@ -27,6 +29,8 @@ module.exports = {
 
         const response = await axios.post(`${process.env.GITLAB_API}/${projectId}/repository/branches`, params)
 
+        console.log('response branch: ')
+        console.log(response.data.name)
         return response.data
     },
 
@@ -46,12 +50,12 @@ module.exports = {
 
     },
 
-    addTribunal: async (tribunal, issueKey, description) => {
+    addTribunal: async (tribunal, jiraKey, description) => {
         const newDescription = `h3. Tribunal Requisitante\r\n ${tribunal}\r\n\r\n` + description
         const json = { fields: { description: newDescription } }
 
         const response = await axios({
-            method: 'PUT', url: `${process.env.JIRA_API}/issue/${issueKey}`,
+            method: 'PUT', url: `${process.env.JIRA_API}/issue/${jiraKey}`,
             headers: { Authorization: `Basic ${process.env.AUTHORIZATION_KEY}` },
             data: json
         })

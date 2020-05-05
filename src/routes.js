@@ -16,24 +16,35 @@ routes.post('/jira-webhook', async (req, res) => {
     let branchComment = ''
 
     if (project === 'Projeto de Teste de Fluxo PJe') {
+        console.log('1')
 
         const jira = new JiraIssue(req.body)
 
         if (jira.webhookEvent === 'jira:issue_created') {
+            console.log('2')
             //Criação da branch no gitlab
             const branch = await issueRequest.createBranch(jira.key, jira.summary)
+            console.log('3')
             const msg = `Branch "${branch.name}" criada no Gitlab.`
 
             branchComment = await commentRequest.jiraIssue(jira.key, msg)
+            console.log('4')
 
             //Encontrar Tribunal
             const tribunal = await userRequest.getTribunal(jira.reporter)
+            console.log('5')
+
             await issueRequest.addTribunal(tribunal, jira.key, jira.description)
+            console.log('6')
 
         }
         // Verificação da descrição para issues criadas e issues atualizadas
         if (branchComment || jira.eventType === 'issue_updated') {
+            console.log('7')
+
             const verify = await issueUtil.verifyIssue(jira.description)
+            console.log('8')
+
             
             // se a verificação solicitar mudanças, faz-se o comentário na issue
             if (verify) await commentRequest.jiraIssue(jira.key, verify)
