@@ -23,7 +23,7 @@ routes.post('/jira-webhook', async (req, res) => {
         if (jira.webhookEvent === 'jira:issue_created') {
             console.log('2')
             //Criação da branch no gitlab
-            const branch = await issueRequest.createBranch(jira.key, jira.summary)
+            const branch = await issueRequest.createBranch(jira.key, jira.summary.replace(' ', '-'))
             console.log('3')
             const msg = `Branch "${branch.name}" criada no Gitlab.`
 
