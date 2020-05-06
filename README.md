@@ -14,3 +14,14 @@ Projeto de integração do Gitlab com o Jira.
 1. As operações devem ser feitas na branch criada, e seu MR deve ser aberto, mudando o status da issue para Resolvida.
 2. Se o MR for aprovado a issue será fechada, se for reprovado a issue será reaberta.
 
+## Requerimentos
+### Gitlab
+1. Url da API.
+2. Id do projeto.
+3. Chave de autorização.
+
+### Jira
+1. Url da API
+2. Autorização 'Basic Auth: {{username:password}}' codificado na base 64.
+3. Transitions do seu projeto para mudança de status.
+
