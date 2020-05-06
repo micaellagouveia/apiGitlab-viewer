@@ -1,12 +1,14 @@
 
 module.exports = {
+    // Pelo nome da branch do gitlab, encontra a chave da issue no jira
     getJiraIssueKey: (merge) => {
         const array = String(merge.source_branch).split('-')
         const jiraIssueKey = array[0] + '-' + array[1]
         return jiraIssueKey
     },
 
-    verifyIssue: (description, files) => {
+    // Verificação da descrição/anexos da issue no jira
+    checkIssue: (description, files) => {
         let miss = ''
         const v1 = description.includes("Funcionalidade relacionada")
         const v2 = description.includes("Necessidade a ser atendida / Problema a ser solucionado")
@@ -22,8 +24,8 @@ module.exports = {
             miss = findMissParam(v1, v2, v3, v4)
 
         // Verificação do conteúdo dos parâmetros existentes e existência de anexos
-        const content = verifyIssueContent(description)
-        const annex = verifyFiles(files)
+        const content = checkIssueContent(description)
+        const annex = checkFiles(files)
 
         // Se algo faltar, retorna a msg
         if (annex || miss != '' || content != '')
@@ -52,7 +54,7 @@ function findMissParam(v1, v2, v3, v4) {
 }
 
 //Verifica se todos os parâmetros existentes estão preenchidos
-function verifyIssueContent(description) {
+function checkIssueContent(description) {
     const h3 = description.split('h3. ')
     let index = 0
     let msg = ['']
@@ -76,7 +78,8 @@ function verifyIssueContent(description) {
     return msg.join('\n')
 }
 
-function verifyFiles(files) {
+// Verifica a existência da arquivos anexados na issue
+function checkFiles(files) {
     if (files.length > 0) return false
     return '* Não há arquivos anexados.\n\n'
 }

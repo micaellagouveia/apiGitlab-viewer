@@ -2,6 +2,7 @@ require('dotenv/config');
 const axios = require('axios')
 
 module.exports = {
+    // Encontra os grupos que o usuário requisitante participa, para encontrar o tribunal relacionado
     getTribunal: async(username)=>{
         const response = await axios({
             method: 'GET', url: `${process.env.JIRA_API}/user?username=${username}&expand=groups`,
@@ -14,6 +15,7 @@ module.exports = {
     }
 }
 
+// Pega o nome do tribunal dentre os grupos que o usuário participa
 function getName(groups)  {
     for (let i in groups) {
         if (groups[i].name.includes('PJE_TRIBUNAL_')) {

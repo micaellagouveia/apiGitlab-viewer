@@ -3,6 +3,7 @@ const axios = require('axios')
 
 module.exports = {
 
+    // Fecha a issue no gitlab
     closeIssue: async (gitId) => {
         const projectId = process.env.PROJECT_ID
         const params = {
@@ -15,6 +16,7 @@ module.exports = {
         return response.data
     },
 
+    // Cria a branch no gitlab relacionada à issue do jira
     createBranch: async (jiraKey, summary) => {
 
         const projectId = process.env.PROJECT_ID
@@ -30,14 +32,15 @@ module.exports = {
         return response.data
     },
 
-    statusIssue: async (issueKey, msg, id) => {
+    // Muda o status da issue de acordo com o resultado do MR
+    statusIssue: async (jiraKey, msg, id) => {
         const json = {
             update: { comment: [{ add: { body: msg } }] },
             transition: { id: id }
         }
 
         const response = await axios({
-            method: 'POST', url: `${process.env.JIRA_API}/issue/${issueKey}/transitions?expand=transitions.fields`,
+            method: 'POST', url: `${process.env.JIRA_API}/issue/${jiraKey}/transitions?expand=transitions.fields`,
             headers: { Authorization: `Basic ${process.env.AUTHORIZATION_KEY}` },
             data: json
         })
@@ -46,16 +49,17 @@ module.exports = {
 
     },
 
+    // Adiciona o nome do tribunal na descrição da issue
     addTribunal: async (tribunal, jiraKey, description) => {
         const newDescription = `h3. Tribunal Requisitante\r\n ${tribunal}\r\n\r\n` + description
         const json = { fields: { description: newDescription } }
 
-        const response = await axios({
+        const addTribunal = await axios({
             method: 'PUT', url: `${process.env.JIRA_API}/issue/${jiraKey}`,
             headers: { Authorization: `Basic ${process.env.AUTHORIZATION_KEY}` },
             data: json
         })
 
-        return response.data
+        return addTribunal.data
     }
 }

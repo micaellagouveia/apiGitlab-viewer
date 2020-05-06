@@ -1,6 +1,6 @@
 module.exports = {
     getJson: () => {
-        const endpoints = [    
+        const endpoints = [
             {
                 type: 'POST',
                 endpoint: '/close-jira-issue',
@@ -11,35 +11,31 @@ module.exports = {
                         source_branch: 'String'
                     }
                 },
-                description: 'Receives an merge request event webhook and close jira issue related at.'
-            },
-            {
-                type: 'POST',
-                endpoint: '/close-gitlab-issue',
-                JSON: {
-                    object_attributes: {
-                        iid: 'Integer',
-                        state: 'String',
-                        source_branch: 'String'
-                    }
-                },
-                description: 'Receives an merge request event webhook and close gitlab issue related at.'
+                description: 'Recebe merge request webhook e altera o status da issue relacionada de acordo com o state do merge.'
             },
             {
                 type: 'POST',
                 endpoint: '/jira-webhook',
                 JSON: {
-                    object_attributes: {
-                        webhookEvent: 'String',
-                        user: {
-                            key: 'String'
-                        },
-                        issue: {
-                            key: 'String'
+                    webhookEvent: 'String',
+                    issue_event_type_name: 'String',
+                    issue: {
+                        key: 'String',
+                        fields: {
+                            description: 'String',
+                            attachment: 'Array',
+                            summary: 'String',
+                            project: {
+                                name: 'String'
+                            },
+                            reporter: {
+                                name: 'String'
+                            }
                         }
                     }
                 },
-                description: 'Receives an jira:issue-created event webhook and created a branch related at on Gitlab.'
+                description: 'Recebe uma "jira:issue_created webhook event" ou "issue_updated issue_event_type_name". Cria branch no gitlab, verifica descrição da issue.'  
+
             }
         ]
         return endpoints

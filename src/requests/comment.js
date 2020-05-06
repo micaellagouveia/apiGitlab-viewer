@@ -2,6 +2,7 @@ require('dotenv/config');
 const axios = require('axios')
 
 module.exports = {
+    // Faz comentário na issue do jira
     jiraIssue: async (jiraKey, msg) => {
 
         const response = await axios({
@@ -12,7 +13,8 @@ module.exports = {
 
         return response.data
     },
-
+ 
+    // Faz comentário na issue do gitlab
     gitlabIssue: async (issueId, merge) => {
         const projectId = process.env.PROJECT_ID
         const params = {
